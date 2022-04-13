@@ -6,6 +6,7 @@ import {currentUserRouter} from './routes/current-user'
 import {signInRouter} from './routes/signin'
 import {signOutRouter} from './routes/signout'
 import {signUpRouter} from './routes/signup'
+import { errorHandler } from './middlewares/error-handler';
 
 const app = express();
 
@@ -16,9 +17,7 @@ app.use(signInRouter)
 app.use(signOutRouter)
 app.use(signUpRouter)
 
-app.get("/api/users/currentuser", (req,res)=>{
-    res.send("hi there!");
-})
+app.use(errorHandler)
 
 app.listen(PORT, ()=>  {
     console.log(`Listening on port ${PORT}..!`);
