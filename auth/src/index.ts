@@ -2,6 +2,7 @@ const PORT = 3000;
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser'
+import mongoose from 'mongoose';
 
 import { currentUserRouter } from './routes/current-user'
 import { signInRouter } from './routes/signin'
@@ -23,6 +24,27 @@ app.all('*', () => { throw new NotFoundError() });
 
 app.use(errorHandler)
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}..!`);
-})
+
+
+// 
+// 
+// START SCRIPT => connect to DB  & start the application
+// 
+// 
+
+const start = async () => {
+    try{
+        await mongoose.connect('mongode://auth-mongo-srv:27017/ticketing_auth')        
+        console.log("Connected to Database");
+    }
+    catch(err){
+        console.log(err);
+    }
+
+    app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}..!`);
+    })
+}
+start()
+
+
