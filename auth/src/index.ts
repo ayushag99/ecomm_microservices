@@ -33,11 +33,11 @@ app.use(errorHandler)
 // 
 
 const start = async () => {
-    try{
-        await mongoose.connect('mongodb://auth-mongo-srv:27017/ticketing_auth')        
+    try {
+        await mongoose.connect('mongodb://auth-mongo-srv:27017/ticketing_auth')
         console.log("Connected to Database");
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 
