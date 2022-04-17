@@ -4,6 +4,7 @@ import 'express-async-errors';
 import { json } from 'body-parser'
 import mongoose from 'mongoose';
 import cookieSession  from 'cookie-session';
+import config from 'config';
 
 import { currentUserRouter } from './routes/current-user'
 import { signInRouter } from './routes/signin'
@@ -50,7 +51,7 @@ const start = async () => {
         throw new Error("JWT_KEY not found")
     }
     try {
-        await mongoose.connect('mongodb://auth-mongo-srv:27017/ticketing_auth')
+        await mongoose.connect(config.get("database.url"))
         console.log("Connected to Database");
     }
     catch (err) {
