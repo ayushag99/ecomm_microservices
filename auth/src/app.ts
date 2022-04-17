@@ -9,6 +9,7 @@ import { signOutRouter } from './routes/signout'
 import { signUpRouter } from './routes/signup'
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
+import { preProcessFile } from 'typescript';
 
 const app = express();
 
@@ -22,7 +23,10 @@ app.use(json())
 app.use(
     cookieSession({
         signed: false, 
-        secure: true
+        // secure: true, will only set cookie if https
+        // On test env it is not https
+        // Thus we set it to false if not in test env
+        secure: process.env.NODE_ENV !== 'test'
     })
 )
 
