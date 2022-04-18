@@ -2,11 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 
 it("responds with details of the current user", async () => {
-  const signup_response = await request(app)
-    .post("/api/users/signup")
-    .send({ email: "test@test.com", password: "testtest" })
-    .expect(201);
-  const cookie = signup_response.get("Set-Cookie");
+  const cookie = await global.signin();
   const respose = await request(app)
     .get("/api/users/currentuser")
     .set("Cookie", cookie)
@@ -15,3 +11,15 @@ it("responds with details of the current user", async () => {
 
   expect(respose.body.currentUser.email).toEqual("test@test.com");
 });
+
+
+it("responds with null if not authenticated", async () => {
+  
+  const respose = await request(app)
+    .get("/api/users/currentuser")
+    .send()
+    .expect(200);
+    console.log(respose)
+  expect(respose.body.currentUser).toEqual(null);
+});
+
