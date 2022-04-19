@@ -1,4 +1,4 @@
-import axios from "axios"
+import buildClient from "../api/buildClient"
 
 const LandingPage = ({ currentUser }) => {
     console.log(currentUser)
@@ -9,33 +9,12 @@ const LandingPage = ({ currentUser }) => {
 // Fetch data with nextJS
 // Make asyncronous calls
 // Prepare data
-LandingPage.getInitialProps = async ({ req }) => {
+LandingPage.getInitialProps = async (context) => {
     // It receives ta request header very similar to express request
     // console.log(req.headers.cookie)
-    if (typeof window === 'undefined') {
-        // We are on server
-        // Request should be made to the ingress-nginx
-        try {
-            const { data } = await axios.get(
-                'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', {
-                headers: req.headers
-            }
-            )
-            return data
-        } catch (err) {
-            console.log(err)
-        }
-    } else {
-        // ON Browser
-        // Request can be made to the browser
-        try {
-            const { data } = await axios.get('/api/users/currentuser')
-            return data
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    return {}
+    const client = buildClient(context)
+    const { data } = await client.get('/api/users/currentuser')
+    return data;
 }
 
 export default LandingPage
