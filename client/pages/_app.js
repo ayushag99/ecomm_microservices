@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
 
 import buildClient from "../api/buildClient"
+import Header from '../components/header'
 
 
 // Next wrap the components in appp
@@ -8,6 +9,7 @@ import buildClient from "../api/buildClient"
 const AppComponent = ({ Component, pageProps, currentUser }) => {
 
     return <div>
+        <Header currentUser={currentUser} />
         <Component {...pageProps} />
     </div>
 }
