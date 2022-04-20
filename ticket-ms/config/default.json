@@ -1,0 +1,8 @@
+{
+    "app":{
+        "port":3000
+    },
+    "database":{
+        "url":"mongodb://auth-mongo-srv:27017/ticketing_auth"
+    }
+}
