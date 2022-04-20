@@ -19,8 +19,11 @@ app.set("trust proxy", true);
 app.use(json());
 app.use(
   cookieSession({
-    signed: false,
-    secure: true,
+    signed: false, 
+        // secure: true, will only set cookie if https
+        // On test env it is not https
+        // Thus we set it to false if not in test env
+        secure: process.env.NODE_ENV !== 'test'
   })
 );
 
