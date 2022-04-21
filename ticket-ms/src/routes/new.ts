@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { requireAuth, validateRequest } from "@aa-ticketing/common";
 import { body } from "express-validator";
+import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
@@ -14,8 +15,17 @@ router.post(
       .withMessage("Price must be greater than zero"),
   ],
   validateRequest,
-  (req: Request, res: Response) => {
-    res.sendStatus(200);
+  async (req: Request, res: Response) => {
+    const { title, price } = req.body;
+    const ticket = Ticket.build({
+      title,
+      price,
+      // requireAuth validates the presence of user in req
+      userId: req.currentUser!.id,
+    });
+
+    await ticket.save();
+    res.status(201).send(ticket);
   }
 );
 
