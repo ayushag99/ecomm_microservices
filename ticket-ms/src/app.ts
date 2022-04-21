@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 
 import { errorHandler, NotFoundError, currentUser } from "@aa-ticketing/common";
 
-import { createTickerRouter, showTickerRouter } from "./routes";
+import indexTicketRouter, { createTicketRouter, showTicketRouter } from "./routes";
 
 const app = express();
 
@@ -24,8 +24,9 @@ app.use(
 // Authentication
 app.use(currentUser);
 
-app.use(createTickerRouter);
-app.use(showTickerRouter);
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(indexTicketRouter);
 
 app.all("*", () => {
   throw new NotFoundError();
