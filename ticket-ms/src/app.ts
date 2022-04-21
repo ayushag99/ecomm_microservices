@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 
 import { errorHandler, NotFoundError, currentUser } from "@aa-ticketing/common";
 
-import { createTickerRouter } from "./routes";
+import { createTickerRouter, showTickerRouter } from "./routes";
 
 const app = express();
 
@@ -25,6 +25,7 @@ app.use(
 app.use(currentUser);
 
 app.use(createTickerRouter);
+app.use(showTickerRouter);
 
 app.all("*", () => {
   throw new NotFoundError();
