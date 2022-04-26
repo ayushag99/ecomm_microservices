@@ -92,4 +92,22 @@ it("returns a 400 if user provides invalid title or price", async () => {
     .send({})
     .expect(400);
 });
-it("updates ticket if valid input", async () => {});
+it("updates ticket if valid input", async () => {
+  const cookie = global.signin();
+
+  const response = await createTicket(cookie);
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({
+      title: "This is a test for update",
+      price: 1000,
+    })
+    .expect(200);
+  const ticketResponse = await request(app)
+    .get(`/api/tickets/${response.body.id}`)
+    .send();
+  expect(ticketResponse.body.title).toEqual("This is a test for update");
+  expect(ticketResponse.body.price).toEqual(1000);
+});
