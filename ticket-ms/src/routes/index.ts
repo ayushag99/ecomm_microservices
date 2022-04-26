@@ -3,6 +3,7 @@ import { Ticket } from "../models/ticket";
 
 export * from "./new";
 export * from "./show";
+export * from "./update"
 
 const router = express.Router();
 
